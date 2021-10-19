@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Welcome page</title>
+    <style>
+    table, th, td {
+      border:1px solid black;
+    }
+    </style>
+</head>
+<body>
+    <p>Results</p>
+    <table>
+      <!-- tr represents a row -->
+      <tr>
+        {% for col_name in table_title %}
+            <th>{{col_name}}</th>
+        {% endfor %}
+      </tr>
+      {% for row in sql_table %}
+      <tr>
+        {% for col in row %}
+        <td>{{col}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+</body>
+</html>
