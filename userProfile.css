@@ -17,6 +17,27 @@ body, html {
 
   .welcomeMsg
   {
-    text-align: center;
-    color: brown;
+    color: rgb(0, 101, 76);
+    position:absolute; 
+    top:20px;
+    left: 130px;    
+  }
+
+  .bLiked
+  {
+    position: absolute;
+    top: 75px;
+    left: 130px;
+  }
+
+  .booksLiked
+  {
+    position: absolute;
+    top:130px;
+    left: 130px;
+    height:150px;
+    width: 320px;
+    border:1px solid #ccc;
+    font:16px/26px Georgia, Garamond, Serif;
+    overflow:auto;
   }
