@@ -53,7 +53,7 @@ def showBooks():
 @app.route('/historySug')
 def historyGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "history, historical fiction, biography" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "history, historical fiction, biography" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -65,7 +65,7 @@ def historyGen():
 app.route('/fictionSug')
 def fictionGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by allbookgenre.fiction desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.fiction desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -77,7 +77,7 @@ def fictionGen():
 app.route('/fantasySug')
 def fantasyGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "fantasy, paranormal" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "fantasy, paranormal" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -89,7 +89,7 @@ def fantasyGen():
 app.route('/mysterySug')
 def mysteryGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "mystery, thriller, crime" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "mystery, thriller, crime" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -101,7 +101,7 @@ def mysteryGen():
 app.route('/poetrySug')
 def poetryGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by allbookgenre.poetry desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.poetry desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -113,7 +113,7 @@ def poetryGen():
 app.route('/romanceSug')
 def romanceGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by allbookgenre.romance desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.romance desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -125,7 +125,7 @@ def romanceGen():
 app.route('/nonFictionSug')
 def nonFictionGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "non-fiction" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "non-fiction" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -137,7 +137,7 @@ def nonFictionGen():
 app.route('/childrenSug')
 def childrenGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by allbookgenre.children desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.children desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -149,7 +149,7 @@ def childrenGen():
 app.route('/youngAdultSug')
 def youngAdultGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "young-adult" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "young-adult" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
@@ -161,7 +161,7 @@ def youngAdultGen():
 app.route('/comicsSug')
 def comicsGen():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id and original_title != '' order by "comics, graphic" desc;")
+    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "comics, graphic" desc;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
