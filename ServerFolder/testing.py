@@ -50,126 +50,53 @@ def showBooks():
     util.disconnect_from_db(connection,cursor)
     return render_template('showBooks.html', sql_table = log, table_title=col_names)
 
-@app.route('/historySug')
-def historyGen():
+@app.route('/searchGenre', methods = ["GET", 'POST'])
+def searchGenre():
+    if request.method == 'POST':
+        if request.form.get("history"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "history, historical fiction, biography" desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("fiction"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.fiction desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("fantasy"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "fantasy, paranormal" desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("mystery"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "mystery, thriller, crime" desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("poetry"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.poetry desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("romance"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.romance desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("nonfiction"):
+            session['bookgenre'] = book_id = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "non-fiction" desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("children"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.children desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("youngadult"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "young-adult" desc;'
+            return redirect(url_for('showGenre'))
+        elif request.form.get("comics"):
+            session['bookgenre'] = 'select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from alldata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "comics, graphic" desc;'
+            return redirect(url_for('showGenre'))
+    return render_template('searchGenre.html')
+
+@app.route('/showGenre')
+def showGenre():
     cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "history, historical fiction, biography" desc;")
+    genres = session['bookgenre']
+    record = util.run_and_fetch_sql(cursor, genres)
     if record == -1:
-        print('Something is wrong with the SQL command')
+        print('Error in showbooks')
     else:
         col_names = [desc[0] for desc in cursor.description]
         log = record[:10]
     util.disconnect_from_db(connection,cursor)
-    return render_template('hisBio.html', sql_table = log, table_title=col_names)
-
-app.route('/fictionSug')
-def fictionGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.fiction desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('fic.html', sql_table = log, table_title=col_names)
-
-app.route('/fantasySug')
-def fantasyGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "fantasy, paranormal" desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('fantPara.html', sql_table = log, table_title=col_names)
-
-app.route('/mysterySug')
-def mysteryGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "mystery, thriller, crime" desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('mysThr.html', sql_table = log, table_title=col_names)
-
-app.route('/poetrySug')
-def poetryGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.poetry desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('poetry.html', sql_table = log, table_title=col_names)
-
-app.route('/romanceSug')
-def romanceGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.romance desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('romance.html', sql_table = log, table_title=col_names)
-
-app.route('/nonFictionSug')
-def nonFictionGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "non-fiction" desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('nonFic.html', sql_table = log, table_title=col_names)
-
-app.route('/childrenSug')
-def childrenGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by allbookgenre.children desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('child.html', sql_table = log, table_title=col_names)
-
-app.route('/youngAdultSug')
-def youngAdultGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "young-adult" desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('youngAdult.html', sql_table = log, table_title=col_names)
-
-app.route('/comicsSug')
-def comicsGen():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
-    record = util.run_and_fetch_sql(cursor, "select best_book_id as "ID", original_publication_year as "Year Published", original_title as "Title" from allbookdata, allbookgenre where allbookdata.best_book_id = allbookgenre.book_id order by "comics, graphic" desc;")
-    if record == -1:
-        print('Something is wrong with the SQL command')
-    else:
-        col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('comicGraph.html', sql_table = log, table_title=col_names)
-
+    return render_template('showGenre.html', sql_table = log, table_title=col_names)
 
 if __name__ == '__main__':
     # set debug mode
