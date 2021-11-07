@@ -24,7 +24,7 @@ page by adding in new bookks they've read.-->
             <h2 style="font-size:2vw;">Book you've liked</h2>
         </div>
         <div class = "booksLiked">
-            <ul style="font-size:1.5vw;">
+            <ul class = "listBooks" style="font-size:1.5vw;">
                 <li>Book</li>
                 <li>Book</li>
                 <li>Book</li>
@@ -36,5 +36,17 @@ page by adding in new bookks they've read.-->
                 <li>Book</li>
             </ul>
         </div>
+        <div class="formHolder">
+            <div class="col big">
+              <input type="text" id="addBook">
+            </div>
+            <div class="col">
+              <button type="button" id="addBtn" class="btn-primary">Add Book</button>
+            </div>
+            <div class="col">
+              <button type="button" id="toggleBtn" class="btn-primary">Hide List</button>
+            </div>
+          </div>
+        <script src="templates/addItem.js"></script>
     </body>
 </html>
