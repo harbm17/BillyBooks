@@ -2,11 +2,12 @@ body, html {
     height: 100%;
   }
   
-  .bg {
+  .bg
+  {
     background-image: url("bookImage.png");
     position: absolute;
     height: 100%;
-  
+    margin: 0 auto;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -15,25 +16,26 @@ body, html {
   .welcomeMsg
   {
     color: rgb(0, 101, 76);
-    position:absolute; 
+    position: absolute; 
     top:20px;
-    left: 130px;    
+    left: 160px;    
   }
 
   .bLiked
   {
     position: absolute;
-    top: 75px;
-    left: 130px;
+    top: 85px;
+    left: 165px;
   }
 
   .booksLiked
   {
     position: absolute;
-    top:130px;
-    left: 130px;
+    top:145px;
+    left: 165px;
     height:150px;
-    width: 320px;
+    width: 25%;
+    margin: 0 auto;
     border:1px solid #ccc;
     font:16px/26px Georgia, Garamond, Serif;
     overflow:auto;
