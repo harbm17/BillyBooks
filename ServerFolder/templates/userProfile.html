@@ -23,7 +23,25 @@ page by adding in new bookks they've read.-->
         <div class = "bLiked">
             <h2 style="font-size:2vw;">Book you've liked</h2>
         </div>
-        <div class = "booksLiked">
+        <div class = "container">
+          <div class = "row">
+            <div class = "col-12">
+              <hr>
+              <div class = "input">
+                <input type = "text" class = "form-control" id = "book">
+                <div class = "input-append">
+                  <button onClick = "addBook()" class = "btn btn-add">Add</button>
+                  <button onClick = "removeBook()" class = "btn btn-remove">Remove</button>
+                </div>
+              </div>
+
+              <ul id = "bookList" class ="list">
+              </ul>
+
+            </div>
+          </div>
+        </div>
+        <!--<div class = "booksLiked">
             <ul class = "listBooks" style="font-size:1.5vw;">
                 <li>Book</li>
                 <li>Book</li>
@@ -35,18 +53,7 @@ page by adding in new bookks they've read.-->
                 <li>Book</li>
                 <li>Book</li>
             </ul>
-        </div>
-        <div class="formHolder">
-            <div class="col big">
-              <input type="text" id="addBook">
-            </div>
-            <div class="col">
-              <button type="button" id="addBtn" class="btn-primary">Add Book</button>
-            </div>
-            <div class="col">
-              <button type="button" id="toggleBtn" class="btn-primary">Hide List</button>
-            </div>
-          </div>
-        <script src="templates/addItem.js"></script>
+        </div>-->
+        <script src="addItem.js"></script>
     </body>
 </html>

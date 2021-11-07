@@ -28,21 +28,22 @@ body, html {
     left: 165px;
   }
 
-  .booksLiked
+  .input
   {
     position: absolute;
     top:145px;
     left: 165px;
     height:150px;
-    width: 25%;
     margin: 0 auto;
-    border:1px solid #ccc;
     font:16px/26px Georgia, Garamond, Serif;
     overflow:auto;
   }
-  .formHolder
+  .list
   {
+    border:1px solid #ccc;
     position: absolute;
-    top:300px;
+    top: 185px;
     left: 165px;
+    overflow:auto;
+    width: 25%
   }
