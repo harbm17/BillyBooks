@@ -3,29 +3,29 @@ from werkzeug.utils import redirect
 
 import util
 
-
 app = Flask(__name__)
 
+username = 'postgres'
+password = 'Password'
+host = '127.0.0.1'
+port = '5432'
+database = 'BillyBooks'
 
-username='postgres'
-password='Password'
-host='127.0.0.1'
-port='5432'
-database='BillyBooks'
 
 @app.route('/')
 def index():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
     record = util.run_and_fetch_sql(cursor, "SELECT * from alldata;")
     if record == -1:
         print('Something is wrong with the SQL command')
     else:
         col_names = [desc[0] for desc in cursor.description]
-        log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('index.html', sql_table = log, table_title=col_names)
+        log = record[:5]
+    util.disconnect_from_db(connection, cursor)
+    return render_template('index.html', sql_table=log, table_title=col_names)
 
-@app.route('/searchBook', methods = ["GET", 'POST'])
+
+@app.route('/searchBook', methods=["GET", 'POST'])
 def searchBar():
     if request.method == 'POST':
         booksearched = request.form.get("searched")
@@ -35,20 +35,74 @@ def searchBar():
         return redirect(url_for('showBooks'))
     return render_template('searchBook.html')
 
+
 @app.route('/showBooks')
 def showBooks():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
     books = session['testing']
     newTitle = "'%" + books + "%'"
     print(newTitle)
-    record = util.run_and_fetch_sql(cursor, "SELECT * from alldata where original_title like %s order by best_book_id;" % newTitle)
+    record = util.run_and_fetch_sql(cursor,
+                                    "SELECT * from alldata where original_title like %s order by best_book_id;" % newTitle)
     if record == -1:
         print('Error in showbooks')
     else:
         col_names = [desc[0] for desc in cursor.description]
         log = record[:10]
-    util.disconnect_from_db(connection,cursor)
-    return render_template('showBooks.html', sql_table = log, table_title=col_names)
+    util.disconnect_from_db(connection, cursor)
+    return render_template('showBooks.html', sql_table=log, table_title=col_names)
+
+
+@app.route('/signIn', methods=["GET", 'POST'])
+def signIn():
+    if request.method == 'POST':
+        username1 = request.form.get("email")
+        password1 = request.form.get("password")
+        print("username and password:")
+        print(username1 + ' ' + password1)
+        # add code to ping the database for the username and password
+        cursor, connection = util.connect_to_db(username, password, host, port, database)
+        userpass = "username = " + "'" + username1 + "'" + " and password = " + "'" + password1 + "'"
+        record = util.run_and_fetch_sql(cursor, "SELECT username from userinfo where %s" % userpass)
+        record = len(record)
+        #print('size of the list' + record)
+        util.disconnect_from_db(connection, cursor)
+        if record == 0:
+            return redirect(url_for('fail'))
+        else:
+            return redirect(url_for('userPage'))
+    return render_template('signIn.html')
+
+@app.route('/signUp', methods=["GET", 'POST'])
+def signUp():
+    if request.method == "POST":
+        username1 = request.form.get("email")
+        password1 = request.form.get("psw")
+        print(username1 + ' ' + password1)
+        cursor, connection = util.connect_to_db(username, password, host, port, database)
+        userpass = "username = " + "'" + username1 + "'"
+        record = util.run_and_fetch_sql(cursor, "SELECT username from userinfo where %s" % userpass)
+        # print('size of the list' + record)
+        username1 = "'" + username1 + "'"
+        password1 = "'" + password1 + "'"
+        record = len(record)
+        if record < 1:
+            send = util.runSQL(cursor, "insert into userinfo values ( %s , %s ); Commit;" % (username1 , password1))
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        else:
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('fail'))
+    return render_template('signUp.html')
+
+#loads the userpage for the user's profile.
+@app.route('/userPage')
+def userPage():
+    return render_template('userPage.html')
+
+@app.route('/userPageFail')
+def fail():
+    return render_template('userPageFail.html')
 
 @app.route('/searchGenre', methods = ["GET", 'POST'])
 def searchGenre():
