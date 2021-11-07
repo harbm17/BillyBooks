@@ -3,13 +3,10 @@ body, html {
   }
   
   .bg {
-    /* The image used */
-    background-image: url("bookImage.png");
     position: absolute;
-    /* Full height */
+    background-image: url("bookImage.png");
     height: 100%;
   
-    /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
