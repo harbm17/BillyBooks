@@ -35,6 +35,13 @@ body, html {
     right: 165px;
   }
 
+  .gLiked
+  {
+    position: absolute;
+    top: 385px;
+    right: 165px;
+  }
+
   .bookInput
   {
     position: absolute;
@@ -50,6 +57,16 @@ body, html {
   {
     position: absolute;
     top:145px;
+    right: 165px;
+    height:150px;
+    margin: 0 auto;
+    font:16px/26px Georgia, Garamond, Serif;
+    overflow:auto;
+  }
+  .genInput
+  {
+    position: absolute;
+    top:445px;
     right: 165px;
     height:150px;
     margin: 0 auto;
@@ -72,6 +89,16 @@ body, html {
     border:1px solid #ccc;
     position: absolute;
     top: 185px;
+    right: 165px;
+    overflow:auto;
+    width: 25%
+  }
+
+  .list2
+  {
+    border:1px solid #ccc;
+    position: absolute;
+    top: 485px;
     right: 165px;
     overflow:auto;
     width: 25%

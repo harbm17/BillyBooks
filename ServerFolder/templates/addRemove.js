@@ -29,3 +29,19 @@ function removeAuthor(){
   var li = document.getElementById(author.value);
   ul.removeChild(li);
 }
+
+function addGenre(){
+  var ul = document.getElementById("genList");
+  var genre = document.getElementById("genre");
+  var li = document.createElement("li");
+  li.setAttribute('id', genre.value);
+  li.appendChild(document.createTextNode(genre.value));
+  ul.appendChild(li);
+}
+
+function removeGenre(){
+  var ul = document.getElementById("genList");
+  var genre = document.getElementById("genre");
+  var li = document.getElementById(genre.value);
+  ul.removeChild(li);
+}
