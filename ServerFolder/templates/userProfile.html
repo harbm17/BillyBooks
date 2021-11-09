@@ -20,14 +20,15 @@ page by adding in new bookks they've read.-->
         <div class = "welcomeMsg">
             <h1 style="font-size:3vw;">Welcome, Person!</h1>
         </div>
+        <!--Books you've liked-->
         <div class = "bLiked">
-            <h2 style="font-size:2vw;">Book you've liked</h2>
+            <h2 style="font-size:2vw;">Books you've liked</h2>
         </div>
         <div class = "container">
           <div class = "row">
             <div class = "col-12">
               <hr>
-              <div class = "input">
+              <div class = "bookInput">
                 <input type = "text" class = "form-control" id = "book">
                 <div class = "input-append">
                   <button onClick = "addBook()" class = "btn btn-add">Add</button>
@@ -35,25 +36,32 @@ page by adding in new bookks they've read.-->
                 </div>
               </div>
 
-              <ul id = "bookList" class ="list">
-              </ul>
+              <ul id = "bookList" class ="list"></ul>
 
             </div>
           </div>
         </div>
-        <!--<div class = "booksLiked">
-            <ul class = "listBooks" style="font-size:1.5vw;">
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-                <li>Book</li>
-            </ul>
-        </div>-->
-        <script src="addItem.js"></script>
+        <!--Authors you like-->
+        <div class = "aLiked">
+          <h2 style="font-size:2vw;">Authors you've liked</h2>
+      </div>
+        <div class = "container">
+          <div class = "row">
+            <div class = "col-12">
+              <hr>
+                <div class = "authorInput">
+                  <input type = "text" class = "form-control" id = "author">
+              <div class = "input-append">
+                <button onClick = "addAuthor()" class = "btn btn-add">Add</button>
+                <button onClick = "removeAuthor()" class = "btn btn-remove">Remove</button>
+              </div>
+            </div>
+
+            <ul id = "authorList" class ="list1"></ul>
+
+          </div>
+        </div>
+      </div>
+        <script src="addRemove.js"></script>
     </body>
 </html>
