@@ -14,7 +14,7 @@ def connect_to_db(username='postgres', password='Password', host='127.0.0.1', po
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
-        print("connected to the database")
+        #print("connected to the database")
 
         return cursor, connection
 
@@ -26,10 +26,9 @@ def disconnect_from_db(connection, cursor):
     if (connection):
         cursor.close()
         connection.close()
-        print("PostgreSQL connection is closed.TESTING")
+        #print("PostgreSQL connection is closed.TESTING")
     else:
         print("Connection does not work.")
-
 
 # run_sql(cursor,"select from;")
 def run_and_fetch_sql(cursor, sql_string=""):
@@ -47,3 +46,37 @@ def run_and_fetch_sql(cursor, sql_string=""):
     except (Exception, Error) as error:
         print("Errors while executes the code: ", error)
         return -1
+
+def runSQL(cursor, sql_string=""):
+    try:
+        cursor.execute(sql_string)
+        return 1
+    except (Exception, Error) as error:
+        print("Errors while executes the code: ", error)
+        return -1
+
+def genreAssign(num):
+    if num == 0:
+        return "history, historical fiction, biography"
+    elif num == 1:
+        return "fiction"
+    elif num==2:
+        return "fantasy, paranormal"
+    elif num==3:
+        return "mystery, thriller, crime"
+    elif num==4:
+        return "poetry"
+    elif num==5:
+        return "romance"
+    elif num==6:
+        return "non-fiction"
+    elif num==7:
+        return "children"
+    elif num==8:
+        return "young-adult"
+    elif num==9:
+        return "comics, graphic"
+
+def runnerSQL(cursor, sql_string=""):
+    cursor.execute(sql_string)
+    return
