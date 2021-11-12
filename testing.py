@@ -36,6 +36,18 @@ def searchBar():
     return render_template('searchBook.html')
 
 
+# Miriam's App Route for clicking on book id
+# This isn't complete, I just been having too much happening to me this week but I got this far.
+@app.route('/bookDetails', methods=["GET", "POST"])
+def bookClickedOn():
+    if request.method == 'POST':
+        cursor, connection = util.connect_to_db(username, password, host, port, database)
+        clickedBook = request.form.get("bookID")
+        showClicked = util.run_and_fetch_sql(cursor, "SELECT original_title, original_publication_year from alldata;")
+        print("gathering book information")
+
+
+
 @app.route('/showBooks')
 def showBooks():
     cursor, connection = util.connect_to_db(username, password, host, port, database)
@@ -141,7 +153,7 @@ def searchGenre():
 
 @app.route('/showGenre')
 def showGenre():
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
     genres = session['bookgenre']
     record = util.run_and_fetch_sql(cursor, genres)
     if record == -1:
@@ -149,7 +161,7 @@ def showGenre():
     else:
         col_names = [desc[0] for desc in cursor.description]
         log = record[:10]
-    util.disconnect_from_db(connection,cursor)
+    util.disconnect_from_db(connection, cursor)
     return render_template('showGenre.html', sql_table = log, table_title=col_names)
 
 if __name__ == '__main__':
