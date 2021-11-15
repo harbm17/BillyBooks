@@ -3,6 +3,7 @@ Billy Books is a webpage application that interacts with a database that holds i
 # Setup
 Getting started: /*Quick note all this command work on windows future editing
 might be required for mac usage*/
+
 1.) Make sure you have the latest Python version installed.
 
 2.)Create a vitrual environment using "python3 -m venv ./venv".
@@ -37,6 +38,7 @@ takes me to the homepage and so forth
 6.) Whenever you close out of the virtual environment on your terminal you can reenter using this command "./venv/Scripts/activate"
 
 SIDE NOTES 
+
 1.) Make sure to remove unneccesasary files from main github repositories such as _pycache_ and .vscode or send them to a trash folder to help with the cluter.
 
 2.) Lets have more conventional names for files for example call files server.py not test.py.
