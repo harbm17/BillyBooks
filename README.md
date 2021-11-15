@@ -1,4 +1,8 @@
-Getting started: /*Quick note all this command work on windows future editing
+# Billy Books
+Billy Books is a webpage application that interacts with a database that holds information about 2 million books. The user is able to search a book by title, personalize their profile based on their author, genre, and book interests.
+
+# Getting started:
+/*Quick note all this command work on windows future editing
 might be required for mac usage*/
 1.) Make sure you have the latest Python version installed.
 
@@ -36,7 +40,7 @@ takes me to the homepage and so forth
 
 7.) Whenever you close out of the virtual environment on your terminal you can reenter using this command "./venv/Scripts/activate"
 
-#Setting up pgAdmin for user testing
+# Setting up pgAdmin for user testing
 1.) You will need to install PostgresSQL https://www.postgresql.org/docs/12/tutorial-install.html 
     and pgAdmin 4 https://www.pgadmin.org/download/
     /*If unfamilair you may need to watch a guide for installation*/
@@ -51,7 +55,7 @@ your database.
 
 6) From this point on if you wish to test the user file you wil need to keep pgadmin on 
 
-#SIDE NOTES 
+# SIDE NOTES 
 1.) Make sure to remove unneccesasary files from main github repositories such as _pycache_ and .vscode or send them to a trash folder at least it will help with the cluter.
 
 2.) Lets have more conventional names for files for example call files like server.py not test.py.
