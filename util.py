@@ -80,3 +80,81 @@ def genreAssign(num):
 def runnerSQL(cursor, sql_string=""):
     cursor.execute(sql_string)
     return
+
+
+
+
+class DatabaseConnection:
+    def __init__(self, username, password, host, port, database):
+        self.username = username
+        self.password = password
+        self.host = host
+        self.port = port
+        self.database = database
+        print(self.username)
+        self.connection = psycopg2.connect(user=self.username,
+                                           password=self.password,
+                                           host=self.host,
+                                           port=self.port,
+                                           database=self.database)
+    
+    # Create the tables in the database if they don't already exist.
+    def setup_database(self):
+        print("============================")
+        
+        with self.getCursor() as cur:
+            cur.execute("""
+                SELECT table_name FROM information_schema.tables
+                WHERE table_schema = 'public'
+                """)
+            records = cur.fetchall()
+            if len(records) == 0:
+                # Create the tables that we need.
+                # TODO: ADD THE REST OF OUR TABLES.
+                cur.execute("""
+                    CREATE TABLE users (
+                        id serial PRIMARY KEY,
+                        username varchar(255) UNIQUE NOT NULL,
+                        password varchar(255) NOT NULL
+                    )
+                """)
+                self.connection.commit()
+                print("Created new table")
+            else:
+                # List the tables that exist
+                print(f"Table exists already(count): {len(records)}")
+                for record in records:
+                    print(record)
+        print("============================")
+
+    def getCursor(self):
+        return self.connection.cursor()
+
+    def runSQL(self, sql_string):
+        try:
+            with self.getCursor() as cur:
+                cur.execute(sql_string)
+                return True
+        except Exception as e:
+            print("Errors while executes the code: ", e)
+            return False
+
+    def runAndCommitSQL(self, sql_string):
+        try:
+            with self.getCursor() as cur:
+                cur.execute(sql_string)
+                self.connection.commit()
+                return True
+        except Exception as e:
+            print("Errors while executes the code: ", e)
+            return False
+
+    def runAndFetchSQL(self, sql_string):
+        try:
+            with self.getCursor() as cur:
+                cur.execute(sql_string)
+                record = cur.fetchall()
+                return record
+        except (Exception, Error) as error:
+            print("Errors while executes the code: ", error)
+            return None
