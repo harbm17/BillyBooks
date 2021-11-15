@@ -37,10 +37,12 @@ takes me to the homepage and so forth
 6.) Whenever you close out of the virtual environment on your terminal you can reenter using this command "./venv/Scripts/activate"
 
 SIDE NOTES 
-1.) Make sure to remove unneccesasary files from main github repositories such as _pycache_ and .vscode or send them to a trash folder at least it will help with the cluter.
+1.) Make sure to remove unneccesasary files from main github repositories such as _pycache_ and .vscode or send them to a trash folder to help with the cluter.
 
-2.) Lets have more conventional names for files for example call files like server.py not test.py.
+2.) Lets have more conventional names for files for example call files server.py not test.py.
 
 3.) Keep venv in your local build not the github build.
 
-4.) Please add to this readme so we can make setup easier in the future. We will also need to add more about how to properly setup pg admin for database usage.
+4.) Keep html files in template folder
+
+Please add to this readme so we can make setup easier in the future. We will also need to add more about how to properly setup pg admin for database usage.
