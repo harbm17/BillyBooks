@@ -21,7 +21,11 @@
       {% for row in sql_table %}
       <tr>
         {% for col in row %}
-        <td>{{col}}</td>
+          {% if loop.first %}
+          <td><a href='/book/{{col}}'>{{col}}</a></td>
+          {% else %}
+          <td>{{col}}</td>
+          {% endif %}
         {% endfor %}
       </tr>
       {% endfor %}
@@ -29,7 +33,7 @@
 <br>
 </div>
 
-<script>
+<!-- <script>
   highlight_row();
   function highlight_row() {
       var table = document.getElementById('display-table');
@@ -59,7 +63,7 @@
       }
   
   }
-  </script>
+  </script> -->
 
 </body>
 </html>
