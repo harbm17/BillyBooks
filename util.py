@@ -170,7 +170,7 @@ class DatabaseConnection:
             with self.getCursor() as cur:
                 cur.execute(sql_string)
                 record = cur.fetchall()
-                return record
+                return (record, cur.description)
         except (Exception, Error) as error:
             print("Errors while executes the code: ", error)
             return None
