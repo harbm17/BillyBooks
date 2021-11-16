@@ -1,31 +1,26 @@
+<!--This is the Home page of BillyBooks.
+	After signing in or signing up, it will ask the user what
+	they want to do and they can either select a book or publish a book.-->
 <!DOCTYPE html>
-
 <html>
-
-<head>
-    <title>Welcome page</title>
-    <style>
-    table, th, td {
-      border:1px solid black;
-    }
-    </style>
-</head>
-<body>
-    <p>Dynamically create a table for SQL results</p>
-    <table>
-      <!-- tr represents a row -->
-      <tr>
-        {% for col_name in table_title %}
-            <th>{{col_name}}</th>
-        {% endfor %}
-      </tr>
-      {% for row in sql_table %}
-      <tr>
-        {% for col in row %}
-        <td>{{col}}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-</body>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='welcome.css') }}">
+	<body>
+		<div class = "welcomeBorder"></div>
+		<h1 class = "welcomeMsg">Welcome! What would you like to do?</h1>
+		<div class = "searchButton">
+			<a href = "searchBook.html">
+				<button>Find a Book!</button>
+			</a><br>
+		</div>
+		<div class = "signInButton">
+			<a href = "signIn.html">
+				<button>Already a BillyBooks Member? Sign In!</button>
+			</a><br>
+		</div>
+		<div class = "signUpButton">
+			<a href = "signUp.html">
+				<button>Not a BillyBooks Member? Sign Up!</button>
+			</a>
+		</div>
+	</body>
 </html>
