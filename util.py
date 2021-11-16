@@ -99,7 +99,7 @@ class DatabaseConnection:
                                            database=self.database)
     
     # Create the tables in the database if they don't already exist.
-    def setup_database(self):
+   def setup_database(self):
         print("============================")
         
         with self.getCursor() as cur:
@@ -108,9 +108,9 @@ class DatabaseConnection:
                 WHERE table_schema = 'public'
                 """)
             records = cur.fetchall()
-            if len(records) == 0:
-                # Create the tables that we need.
-                # TODO: ADD THE REST OF OUR TABLES.
+            existingTables = [t[0] for t in records]
+            print (existingTables)
+            if "users" not in existingTables: 
                 cur.execute("""
                     CREATE TABLE users (
                         id serial PRIMARY KEY,
@@ -118,13 +118,29 @@ class DatabaseConnection:
                         password varchar(255) NOT NULL
                     )
                 """)
-                self.connection.commit()
-                print("Created new table")
-            else:
-                # List the tables that exist
-                print(f"Table exists already(count): {len(records)}")
-                for record in records:
-                    print(record)
+            if "genres" not in existingTables:
+                cur.execute("""
+                    CREATE TABLE genres(
+                        id serial                  PRIMARY KEY,
+                        name                       varchar(255) UNIQUE NOT NULL
+                    )
+                """)
+            if "books" not in existingTables:
+                cur.execute("""
+                    CREATE TABLE books(
+                        id serial                   PRIMARY KEY,
+                        original_publication_year   int,
+                        original_title              varchar(255),
+                        rating_distribution         varchar(255),
+                        ratings_count               int,
+                        ratings_sum                 int,
+                        work_id                     int,
+                        first_genre                 int REFERENCES genres(id),
+                        second_genre                int REFERENCES genres(id)
+                    )
+                """)
+            self.connection.commit()
+           
         print("============================")
 
     def getCursor(self):
