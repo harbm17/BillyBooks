@@ -99,7 +99,7 @@ class DatabaseConnection:
                                            database=self.database)
     
     # Create the tables in the database if they don't already exist.
-   def setup_database(self):
+    def setup_database(self):
         print("============================")
         
         with self.getCursor() as cur:
