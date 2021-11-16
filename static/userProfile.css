@@ -4,7 +4,7 @@ body, html {
 
   .bg
   {
-    background-image: url("bookImage.png");
+    background-image: url('images/bookImage.png');
     position: absolute;
     height: 100%;
     margin: 0 auto;

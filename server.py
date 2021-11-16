@@ -20,7 +20,7 @@ db.setup_database()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('weclome.html')
 
 
 @app.route('/searchBook', methods=["GET", 'POST'])
@@ -125,7 +125,7 @@ def logout():
     return redirect(url_for('index'))
 
 #loads the userpage for the user's profile.
-@app.route('/userPage')
+@app.route('/userProfile')
 def userPage():
     if 'username' not in session or session['username'] is None:
     # if session['username'] is None:
