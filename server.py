@@ -37,18 +37,40 @@ def searchBar():
 @app.route('/showBooks')
 def showBooks():
     cursor, connection = util.connect_to_db(username, password, host, port, database)
-    books = session['testing']
+    books = session['bookSearch']
     newTitle = "'%" + books + "%'"
     print(newTitle)
-    record = util.run_and_fetch_sql(cursor,
-                                    "SELECT * from alldata where original_title like %s order by best_book_id;" % newTitle)
+    # # record = util.run_and_fetch_sql(cursor, 
+    #                                "SELECT * from alldata where original_title like %s order by best_book_id;" % newTitle)
+    record, description = db.runAndFetchSQL(f"""
+        SELECT id, original_title, original_publication_year
+        FROM books
+        WHERE original_title like '%{books}%'
+        ORDER BY id;
+    """)
+    print(record)
     if record == -1:
         print('Error in showbooks')
     else:
-        col_names = [desc[0] for desc in cursor.description]
+        col_names = [desc[0] for desc in description]
         log = record[:10]
-    util.disconnect_from_db(connection, cursor)
+    #  util.disconnect_from_db(connection, cursor)
     return render_template('showBooks.html', sql_table=log, table_title=col_names)
+
+@app.route('/book/<int:book_id>')
+def book(book_id):
+    record, description = db.runAndFetchSQL(f"""
+        SELECT *
+        FROM books
+        WHERE id = {book_id};
+    """)
+    print(record)
+    if record == -1:
+        print('Error in showbooks')
+    else:
+        col_names = [desc[0] for desc in description]
+        data = record[0]
+    return render_template('bookinfo.html', data=data, table_title=col_names)
 
 
 @app.route('/signIn', methods=["GET", 'POST'])
