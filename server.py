@@ -29,7 +29,7 @@ def searchBar():
         booksearched = request.form.get("searched")
         print("book being searched for")
         print(booksearched)
-        session['testing'] = booksearched
+        session['bookSearch'] = booksearched
         return redirect(url_for('showBooks'))
     return render_template('searchBook.html')
 
@@ -80,7 +80,7 @@ def signIn():
         password = request.form.get("password")
         print("username and password:")
         print(username + ' ' + password)
-        records = db.runAndFetchSQL(f"""
+        records, _ = db.runAndFetchSQL(f"""
             SELECT username FROM users
             WHERE username='{username}' and password='{password}';
             """)
@@ -97,7 +97,7 @@ def signUp():
         username = request.form.get("email")
         password = request.form.get("psw")
         print(username + ' ' + password)
-        records = db.runAndFetchSQL(f"""
+        records, _ = db.runAndFetchSQL(f"""
             SELECT username FROM users
             WHERE username='{username}';
             """)
@@ -125,7 +125,7 @@ def logout():
     return redirect(url_for('index'))
 
 #loads the userpage for the user's profile.
-@app.route('/userProfile')
+@app.route('/userPage')
 def userPage():
     if 'username' not in session or session['username'] is None:
     # if session['username'] is None:
