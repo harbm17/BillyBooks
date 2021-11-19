@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-    <title>Welcome page</title>
+  <head>
     <style>
-    table, th, td {
-      border:1px solid black;
-    }
-    </style>
+        img {
+          width: 100%;
+        }
+        </style>
+    <!-- Below is the link to the css page -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userProfile.css') }}">
 </head>
 <body>
-
-    <ul>
-        {% for d in data %}
-        <li>{{d}}</li>
-        {% endfor %}
-
-    </ul>
-
-   
+    <body>
+      <div class="background"> 
+        <img src="/static/images/bookImage.png" width="128" height="1000"/> 
+      </div>
+    </body>
+      <div class="welcomeMsg">
+        <h1>{{data[2]}}</h1>
+      </div>
+      <div class = "bLiked">
+        <h2>
+          <ul>
+            <li>publication year: {{data[1]}}</li>
+            <li>first genre: {{data[7]}}</li>
+            <li>second genre: {{data[8]}}</li>
+            <li>book id: {{data[0]}}</li>
+          </ul>
+        </h2>
+      </div>
+      <div class = "aLiked">
+        <h2>
+          <li>rating distribution: {{data[3]}}</li>
+          <li>rating count: {{data[4]}}</li>
+          <li>rating sum: {{data[5]}}</li>
+          <li>work id: {{data[6]}}</li>
+        </h2>
+      </div>
 <br>
 </div>
 </body>
