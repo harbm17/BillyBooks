@@ -91,11 +91,14 @@ def signUp():
         userpass = "username = " + "'" + username1 + "'"
         record = util.run_and_fetch_sql(cursor, "SELECT username from userinfo where %s" % userpass)
         # print('size of the list' + record)
+        usernameT = username1
         username1 = "'" + username1 + "'"
         password1 = "'" + password1 + "'"
         record = len(record)
         if record < 1:
+            session['username'] = usernameT
             send = util.runSQL(cursor, "insert into userinfo values ( %s , %s ); Commit;" % (username1 , password1))
+            send = util.runSQL(cursor, "insert into userlists values( %s, '{}','{}','{}','{}'); Commit;" % username1)
             util.disconnect_from_db(connection, cursor)
             return redirect(url_for('userPage'))
         else:
@@ -103,32 +106,56 @@ def signUp():
             return redirect(url_for('fail'))
     return render_template('signUp.html')
 
+@app.route('/logout', methods=["GET", 'POST'])
+def logout():
+    session['username'] = None
+    return redirect(url_for('index'))
+
 #loads the userpage for the user's profile.
 @app.route('/userPage', methods=["GET", 'POST'])
 def userPage():
     if request.method == "POST":
-        if request.form['book_add']=="add_button_book":
+        if request.form.get('book_add', False):
             return redirect(url_for('userSearchBook'))
+        if request.form.get("genreAdd", False):
+            return redirect(url_for('userSearchGenre'))
+        elif request.form.get("logout", False):
+            return redirect(url_for('logout'))
     #code block to setup the list for liked books, do not edit
     cursor, connection = util.connect_to_db(username, password, host, port, database)
     record = util.run_and_fetch_sql(cursor, "select liked_books from userlists where username = '" + session['username'] + "'")
     print(record)
     records = []
-
-    for x in record:
-        for y in x:
-            for z in y:
-                print(z)
-                records.append(z)
+    if record != -1:
+        for x in record:
+            for y in x:
+                for z in y:
+                    print(z)
+                    records.append(z)
     print(records)
     if record == -1:
         print('Error in showbooks')
     else:
         col_names = [desc[0] for desc in cursor.description]
         log = records[:10]
-    #end code for the liked books, again do not edit.
-    return render_template('userProfile.html', username=session['username'], sql_table=log, table_title=col_names)
 
+    record2 = util.run_and_fetch_sql(cursor, "select liked_genres from userlists where username = '" + session['username'] + "'")
+    print(record2)
+    records2 = []
+    if record2 != -1:
+        for x in record2:
+            for y in x:
+                for z in y:
+                    print(z)
+                    records2.append(z)
+    print(records2)
+    if record2 == -1:
+        print('Error in showbooks')
+    else:
+        col_names = [desc[0] for desc in cursor.description]
+        log2 = records2[:10]
+    #end code for the liked books, again do not edit.
+    return render_template('userProfile.html', username=session['username'], sql_table=log, sql_table2=log2, table_title=col_names)
 #adding info for the search, show, and bookinfo pages from the userprofile.
 @app.route('/userSearchBook', methods=["GET", 'POST'])
 def userSearchBook():
@@ -139,6 +166,7 @@ def userSearchBook():
         session['userSB'] = booksearched
         return redirect(url_for('userShowBook'))
     return render_template('userSearchBook.html')
+
 #redirect from the userSearchbook page from user profile
 @app.route('/userShowBook', methods=["GET", 'POST'])
 def userShowBook():
@@ -183,7 +211,80 @@ def userbook(book_id):
         data = record[0]
     return render_template('userBookinfo.html', data=data, table_title=col_names)
 
-
+@app.route('/userSearchGenre', methods = ["GET", 'POST'])
+def userSearchGenre():
+    if request.method == 'POST':
+        if request.form.get("history"):
+            bookgenre = "History"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("fiction"):
+            bookgenre = "Fiction"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("fantasy"):
+            bookgenre = "Fantasy"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("mystery"):
+            bookgenre = "Mystery"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("poetry"):
+            bookgenre = "Poetry"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("romance"):
+            bookgenre = "Romance"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("nonfiction"):
+            bookgenre = "Non-Fiction"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("children"):
+            bookgenre = "Children"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("youngadult"):
+            bookgenre = "Young-Adult"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+        elif request.form.get("comics"):
+            bookgenre = "Comics"
+            cursor, connection = util.connect_to_db(username, password, host, port, database)
+            script = "update userlists set liked_genres = liked_genres || '{" + bookgenre + "}' where username = '" +  session['username'] + "' ; commit;"
+            util.runnerSQL(cursor, script)
+            util.disconnect_from_db(connection, cursor)
+            return redirect(url_for('userPage'))
+    return render_template('searchGenre.html')
 
 
 
