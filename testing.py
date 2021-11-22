@@ -109,7 +109,7 @@ def userPage():
     if request.method == "POST":
         if request.form['book_add']=="add_button_book":
             return redirect(url_for('userSearchBook'))
-
+    #code block to setup the list for liked books, do not edit
     cursor, connection = util.connect_to_db(username, password, host, port, database)
     record = util.run_and_fetch_sql(cursor, "select liked_books from userlists where username = '" + session['username'] + "'")
     print(record)
@@ -126,6 +126,7 @@ def userPage():
     else:
         col_names = [desc[0] for desc in cursor.description]
         log = records[:10]
+    #end code for the liked books, again do not edit.
     return render_template('userProfile.html', username=session['username'], sql_table=log, table_title=col_names)
 
 #adding info for the search, show, and bookinfo pages from the userprofile.
@@ -138,7 +139,7 @@ def userSearchBook():
         session['userSB'] = booksearched
         return redirect(url_for('userShowBook'))
     return render_template('userSearchBook.html')
-
+#redirect from the userSearchbook page from user profile
 @app.route('/userShowBook', methods=["GET", 'POST'])
 def userShowBook():
     cursor, connection = util.connect_to_db(username, password, host, port, database)
@@ -155,7 +156,7 @@ def userShowBook():
     util.disconnect_from_db(connection, cursor)
     return render_template('userShowBook.html', sql_table=log, table_title=col_names)
 
-
+#final page in the liked book cicle from user profile,
 @app.route('/userbook/<int:book_id>', methods=["GET", 'POST'])
 def userbook(book_id):
     if request.method == 'POST':
@@ -238,7 +239,7 @@ def showGenre():
     util.disconnect_from_db(connection,cursor)
     return render_template('showGenre.html', sql_table=log, table_title=col_names)
 
-# The function for calculating the top two genres for a particular book
+# The function for calculating the top two genres for a particular book, only necessary for database stuff.
 @app.route('/toptwo')
 def topTwo():
     script = "select book_id," + '"history, historical fiction, biography"/total_genre::float as numhis,' + 'fiction/total_genre::float as numfic,' + '"fantasy, paranormal"/total_genre::float as numfan,' +'"mystery, thriller, crime"/total_genre::float as nummys,'+'poetry/total_genre::float as numpoe,'+'romance/total_genre::float as numrom,'+'"non-fiction"/total_genre::float as numnon,'+'children/total_genre::float as numchi,'+'"young-adult"/total_genre::float as numyou,'+'"comics, graphic"/total_genre::float as numcom,'+'total_genre from allbookgenre where total_genre > 0'
