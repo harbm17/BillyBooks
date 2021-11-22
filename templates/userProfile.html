@@ -20,6 +20,7 @@ page by adding in new bookks they've read.-->
     <form method ="post">
     <body>
         <div class = "welcomeMsg">
+            <button type="submit" name="logout" value="logout"> Logout </button>
             <h1 style="font-size:3vw;">Welcome, {{ username }}!</h1>
         </div>
         <!--Books you've liked-->
@@ -33,7 +34,7 @@ page by adding in new bookks they've read.-->
               <div class = "bookInput">
                 <div class = "input-append">
                         <button type="submit" name="book_add" value="add_button_book"> Add </button>
-                        <button onClick = "removeBook()" class = "btn btn-remove">Remove</button>
+                        <button onClick = "removeBook()" class = "btn btn-remove"> Remove </button>
                         <br>
                      <body>
                     <table>
@@ -60,7 +61,6 @@ page by adding in new bookks they've read.-->
             <div class = "col-12">
               <hr>
                 <div class = "authorInput">
-                  <input type = "text" class = "form-control" id = "author">
               <div class = "input-append">
                 <button onClick = "addAuthor()" class = "btn btn-add">Add</button>
                 <button onClick = "removeAuthor()" class = "btn btn-remove">Remove</button>
@@ -81,10 +81,20 @@ page by adding in new bookks they've read.-->
           <div class = "col-12">
             <hr>
               <div class = "genInput">
-                <input type = "text" class = "form-control" id = "genre">
                   <div class = "input-append">
-                    <button onClick = "addGenre()" class = "btn btn-add">Add</button>
-                    <button onClick = "removeGenre()" class = "btn btn-remove">Remove</button>
+                        <button type="submit" name="genreAdd" value="genreAdd"> Add </button>
+                        <button onClick = "removeGenre()" class = "btn btn-remove">Remove</button>
+                        <br>
+                      <body>
+                    <table>
+                    <!-- tr represents a row -->
+                      {% for row in sql_table2 %}
+                     <tr>
+                   <td>{{row}}</td>
+                         </tr>
+                     {% endfor %}
+                    </table>
+                    </body>
                   </div>
               </div>
             <ul id = "genList" class ="list2"></ul>
