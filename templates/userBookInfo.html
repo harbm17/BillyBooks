@@ -9,11 +9,17 @@
 			background-repeat: no-repeat;
 			background-size: 100% 100%;
 			}
+			.addBook{
+			    position: adsolute;
+			    top: 50px;
+			    right:50px;
+			}
         </style>
     <!-- Below is the link to the css page -->
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userProfile.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userBookInfo.css') }}">
 </head>
 <body>
+
       <div class="welcomeMsg">
         <h1>{{data[0]}}</h1>
       </div>
@@ -28,14 +34,15 @@
         <h2>
           <li>first genre: {{data[2]}}</li>
           <li>second genre: {{data[3]}}</li>
+
         </h2>
       </div>
-
       </div class="addbook">
         <form method="post">
-            <button type="submit" name="book_add" value="book_add">Add book to your list of liked books</button>
+            <button type="submit" name="book_add" value='{{data[0]}}'>Add book to your list of liked books</button>
         </form>
       </div>
 <br>
+</div>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Welcome page</title>
@@ -22,7 +21,7 @@
       <tr>
         {% for col in row %}
           {% if loop.first %}
-          <td><a href='/book/{{col}}'>{{col}}</a></td>
+          <td><a href='/userbook/{{col}}'>{{col}}</a></td>
           {% else %}
           <td>{{col}}</td>
           {% endif %}

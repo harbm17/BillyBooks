@@ -1,8 +1,15 @@
-<!--This is the Home page of BillyBooks.
-	After signing in or signing up, it will ask the user what
-	they want to do and they can either select a book or publish a book.-->
 <!DOCTYPE html>
 <html>
+	<head class="intro-header">
+		<style>
+			body{
+			background-image: url({{ url_for('static', filename='book-goat.jpeg') }});
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			}
+		</style>
+	</head>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='welcome.css') }}">
 	<body>
 		<div class = "welcomeBorder"></div>

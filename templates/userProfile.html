@@ -5,19 +5,20 @@ page by adding in new bookks they've read.-->
 <html>
     <head>
         <style>
-            img {
-              width: 100%;
+            body{
+			background-image: url({{ url_for('static', filename='bookImage.png') }});
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			}
+			table, th, td {
+            border:1px solid black;
             }
-            </style>
-        <!-- Below is the link to the css page -->
+        </style>
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userProfile.css') }}">
     </head>
+    <form method ="post">
     <body>
-        <body>
-            <div class="background"> 
-              <img src="/static/images/bookImage.png" width="128" height="1000"/> 
-            </div>
-          </body>
         <div class = "welcomeMsg">
             <h1 style="font-size:3vw;">Welcome, {{ username }}!</h1>
         </div>
@@ -30,14 +31,22 @@ page by adding in new bookks they've read.-->
             <div class = "col-12">
               <hr>
               <div class = "bookInput">
-                <input type = "text" class = "form-control" id = "book">
                 <div class = "input-append">
-                  <button onClick = "addBook()" class = "btn btn-add">Add</button>
-                  <button onClick = "removeBook()" class = "btn btn-remove">Remove</button>
+                        <button type="submit" name="book_add" value="add_button_book"> Add </button>
+                        <button onClick = "removeBook()" class = "btn btn-remove">Remove</button>
+                        <br>
+                     <body>
+                    <table>
+                    <!-- tr represents a row -->
+                      {% for row in sql_table %}
+                     <tr>
+                   <td>{{row}}</td>
+                         </tr>
+                     {% endfor %}
+                    </table>
+                </body>
                 </div>
               </div>
-
-              <ul id = "bookList" class ="list"></ul>
 
             </div>
           </div>
@@ -71,14 +80,18 @@ page by adding in new bookks they've read.-->
         <div class = "row">
           <div class = "col-12">
             <hr>
+              <div class = "genInput">
+                <input type = "text" class = "form-control" id = "genre">
                   <div class = "input-append">
                     <button onClick = "addGenre()" class = "btn btn-add">Add</button>
                     <button onClick = "removeGenre()" class = "btn btn-remove">Remove</button>
                   </div>
+              </div>
             <ul id = "genList" class ="list2"></ul>
           </div>
         </div>
       </div>
         <script src="addRemove.js"></script>
     </body>
+    </form>
 </html>
