@@ -11,7 +11,6 @@ host = '127.0.0.1'
 port = '5432'
 database = 'BillyBooks'
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -35,7 +34,7 @@ def showBooks():
     newTitle = "'%" + books + "%'"
     print(newTitle)
     record = util.run_and_fetch_sql(cursor,
-                                    "SELECT * from alldata where original_title like %s order by best_book_id;" % newTitle)
+                                    "SELECT best_book_id, original_title, original_publication_year, first_genre, second_genre from alldata where original_title like %s order by best_book_id;" % newTitle)
     if record == -1:
         print('Error in showbooks')
     else:
@@ -44,6 +43,22 @@ def showBooks():
     util.disconnect_from_db(connection, cursor)
     return render_template('showBooks.html', sql_table=log, table_title=col_names)
 
+@app.route('/book/<int:book_id>')
+def book(book_id):
+    bookid = "'" + str(book_id) + "'"
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
+    record = util.run_and_fetch_sql(cursor, f"""
+        SELECT original_title, original_publication_year, first_genre, second_genre
+        FROM alldata
+        WHERE best_book_id = {bookid};
+    """)
+    print(record)
+    if record == -1:
+        print('Error in showbooks')
+    else:
+        col_names = [desc[0] for desc in cursor.description]
+        data = record[0]
+    return render_template('bookinfo.html', data=data, table_title=col_names)
 
 @app.route('/signIn', methods=["GET", 'POST'])
 def signIn():
@@ -62,6 +77,7 @@ def signIn():
         if record == 0:
             return redirect(url_for('fail'))
         else:
+            session['username'] = username1
             return redirect(url_for('userPage'))
     return render_template('signIn.html')
 
@@ -88,9 +104,87 @@ def signUp():
     return render_template('signUp.html')
 
 #loads the userpage for the user's profile.
-@app.route('/userPage')
+@app.route('/userPage', methods=["GET", 'POST'])
 def userPage():
-    return render_template('userProfile.html')
+    if request.method == "POST":
+        if request.form['book_add']=="add_button_book":
+            return redirect(url_for('userSearchBook'))
+
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
+    record = util.run_and_fetch_sql(cursor, "select liked_books from userlists where username = '" + session['username'] + "'")
+    print(record)
+    records = []
+
+    for x in record:
+        for y in x:
+            for z in y:
+                print(z)
+                records.append(z)
+    print(records)
+    if record == -1:
+        print('Error in showbooks')
+    else:
+        col_names = [desc[0] for desc in cursor.description]
+        log = records[:10]
+    return render_template('userProfile.html', username=session['username'], sql_table=log, table_title=col_names)
+
+#adding info for the search, show, and bookinfo pages from the userprofile.
+@app.route('/userSearchBook', methods=["GET", 'POST'])
+def userSearchBook():
+    if request.method == 'POST':
+        booksearched = request.form.get("searched")
+        print("book being searched for")
+        print(booksearched)
+        session['userSB'] = booksearched
+        return redirect(url_for('userShowBook'))
+    return render_template('userSearchBook.html')
+
+@app.route('/userShowBook', methods=["GET", 'POST'])
+def userShowBook():
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
+    books = session['userSB']
+    newTitle = "'%" + books + "%'"
+    print(newTitle)
+    record = util.run_and_fetch_sql(cursor,
+                                    "SELECT best_book_id, original_title, original_publication_year, first_genre, second_genre from alldata where original_title like %s order by best_book_id;" % newTitle)
+    if record == -1:
+        print('Error in usershowbooks')
+    else:
+        col_names = [desc[0] for desc in cursor.description]
+        log = record[:10]
+    util.disconnect_from_db(connection, cursor)
+    return render_template('userShowBook.html', sql_table=log, table_title=col_names)
+
+
+@app.route('/userbook/<int:book_id>', methods=["GET", 'POST'])
+def userbook(book_id):
+    if request.method == 'POST':
+        bookname = request.form.get('book_add')
+        print('testing bookname pass' + bookname)
+        cursor, connection = util.connect_to_db(username, password, host, port, database)
+        script = "update userlists set liked_books = liked_books || '{" + bookname + "}' where username = '" +  session['username'] + "' ; commit;"
+        util.runnerSQL(cursor, script)
+        util.disconnect_from_db(connection, cursor)
+        return  redirect(url_for('userPage'))
+
+    bookid = "'" + str(book_id) + "'"
+    cursor, connection = util.connect_to_db(username, password, host, port, database)
+    record = util.run_and_fetch_sql(cursor, f"""
+        SELECT original_title, original_publication_year, first_genre, second_genre
+        FROM alldata
+        WHERE best_book_id = {bookid};
+    """)
+    print(record)
+    if record == -1:
+        print('Error in userbookinfo')
+    else:
+        col_names = [desc[0] for desc in cursor.description]
+        data = record[0]
+    return render_template('userBookinfo.html', data=data, table_title=col_names)
+
+
+
+
 
 @app.route('/userPageFail')
 def fail():
