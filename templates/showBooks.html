@@ -9,22 +9,22 @@
     }
     </style>
 </head>
-<body>
-    <p>Results</p>
-    <table>
+<body style="background-color: #a4cae5;">
+    <p style="color:#28211e;">Results</p>
+    <table style="background-color: #95a4b6;">
       <!-- tr represents a row -->
-      <tr>
+      <tr style="color:#28211e;">
         {% for col_name in table_title %}
-            <th>{{col_name}}</th>
+            <th style="color:#28211e;">{{col_name}}</th>
         {% endfor %}
       </tr>
       {% for row in sql_table %}
-      <tr>
+      <tr style="color:#28211e;">
         {% for col in row %}
           {% if loop.first %}
-          <td><a href='/book/{{col}}'>{{col}}</a></td>
+          <td ><a href='/book/{{col}}'>{{col}}</a></td>
           {% else %}
-          <td>{{col}}</td>
+          <td style="color:#28211e;">{{col}}</td>
           {% endif %}
         {% endfor %}
       </tr>
